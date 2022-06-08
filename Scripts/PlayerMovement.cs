@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
         body.AddForce(new Vector2(0f, movevertical * speed * 15f), ForceMode2D.Impulse);
         movement = false;
     }
+
     private void Update()
     {
         if (movement == true) {
@@ -79,6 +80,10 @@ public class PlayerMovement : MonoBehaviour
             
         }
 
+    }
+
+    private void OnTrigger() {
+        
     }
 
 }
