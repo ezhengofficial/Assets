@@ -9,12 +9,13 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D body;
     private bool movement;
     private bool efffected;
-    public GameManager gameManager;
+    public int score;
     
     private void Start() 
     {
         body = GetComponent<Rigidbody2D>();
         movement = true;
+        score = 0;
     }
     
     public void move() 
@@ -30,19 +31,19 @@ public class PlayerMovement : MonoBehaviour
             movehorizontal = Input.GetAxisRaw("Horizontal");
             movevertical = Input.GetAxisRaw("Vertical");
             if (Input.GetKey("d")) {
-                transform.position = new Vector3(-3, 0, 0);
+                transform.position = new Vector3(-5, 0, 0);
                 move();
             }
             if (Input.GetKey("a")) {
-                transform.position = new Vector3(3, 0, 0);
+                transform.position = new Vector3(5, 0, 0);
                 move();
             }
             if (Input.GetKey("s")) {
-                transform.position = new Vector3(0, 3, 0);
+                transform.position = new Vector3(0, 5, 0);
                 move();
             }
             if (Input.GetKey("w")) {
-                transform.position = new Vector3(0, -3, 0);
+                transform.position = new Vector3(0, -5, 0);
                 move();
             }
             
@@ -82,8 +83,19 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void OnTrigger() {
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if(collision.gameObject.tag == "goal") {
+            Debug.Log("detected goal");
+            GameObject.Find("Score").GetComponent<ScoreScript>().Score();
+            body.velocity = new Vector2(0f, 0f);
+            transform.position = new Vector3(0, 11, 0);
+            movement = true;  
+        }
         
+        if(collision.gameObject.tag == "wall") {
+            Debug.Log("detected wall");
+            FindObjectOfType<GameManager>().EndGame();
+        }
     }
 
 }
