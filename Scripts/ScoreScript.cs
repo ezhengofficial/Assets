@@ -7,7 +7,7 @@ using TMPro;
 
 public class ScoreScript : MonoBehaviour
 {   
-    private int score;
+    public int score;
     public TextMeshProUGUI scoreText;
     
     // Update is called once per frame

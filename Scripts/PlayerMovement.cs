@@ -9,13 +9,12 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D body;
     private bool movement;
     private bool efffected;
-    public int score;
     
     private void Start() 
     {
         body = GetComponent<Rigidbody2D>();
         movement = true;
-        score = 0;
+        FindObjectOfType<GameManager>().gameTime = 30;
     }
     
     public void move() 
@@ -33,18 +32,22 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKey("d")) {
                 transform.position = new Vector3(-5, 0, 0);
                 move();
+                FindObjectOfType<GameManager>().timeStop = true;
             }
             if (Input.GetKey("a")) {
                 transform.position = new Vector3(5, 0, 0);
                 move();
+                FindObjectOfType<GameManager>().timeStop = true;
             }
             if (Input.GetKey("s")) {
                 transform.position = new Vector3(0, 5, 0);
                 move();
+                FindObjectOfType<GameManager>().timeStop = true;
             }
             if (Input.GetKey("w")) {
                 transform.position = new Vector3(0, -5, 0);
                 move();
+                FindObjectOfType<GameManager>().timeStop = true;
             }
             
         }
@@ -90,6 +93,14 @@ public class PlayerMovement : MonoBehaviour
             body.velocity = new Vector2(0f, 0f);
             transform.position = new Vector3(0, 11, 0);
             movement = true;  
+            if (GameObject.Find("Score").GetComponent<ScoreScript>().score <= 1400) {
+                FindObjectOfType<GameManager>().gameTime = 15 - GameObject.Find("Score").GetComponent<ScoreScript>().score/100;
+            }
+            else {
+                FindObjectOfType<GameManager>().gameTime = 1;
+            }
+            FindObjectOfType<GameManager>().SetGameTime();
+            FindObjectOfType<GameManager>().timeStop = false;
         }
         
         if(collision.gameObject.tag == "wall") {
