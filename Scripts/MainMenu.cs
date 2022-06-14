@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
     {
-        int index = Random.Range(1,3);
+        int index = Random.Range(1,16);
         SceneManager.LoadScene(index);
         Debug.Log("scene loaded");
     }

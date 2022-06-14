@@ -7,13 +7,12 @@ using TMPro;
 
 public class ScoreScript : MonoBehaviour
 {   
-    public int score;
+    public static int score;
     public TextMeshProUGUI scoreText;
     
     // Update is called once per frame
     void Start()
     {       
-        score = 0;
         scoreText = GetComponent<TMPro.TextMeshProUGUI>();
         scoreText.SetText(score.ToString());
     }

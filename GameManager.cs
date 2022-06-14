@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public bool timeStop;
 
     public void Start () {
+        gameTime = 15;
         timerSlider.maxValue = gameTime;
         timerSlider.value = gameTime;
     }
@@ -24,6 +25,8 @@ public class GameManager : MonoBehaviour
     void Restart() {
         SceneManager.LoadScene("Menu");
         Debug.Log("scene loaded");
+        Destroy (GameObject.Find("Music"));
+        ScoreScript.score = 0;
     }
 
     void FixedUpdate()
@@ -34,6 +37,9 @@ public class GameManager : MonoBehaviour
             elapsedTime += Time.deltaTime;
             time = gameTime - elapsedTime;
             timerSlider.value = time;
+            if (time <= 0.05f) {
+                EndGame();
+            }
         }
     }
 
@@ -42,5 +48,11 @@ public class GameManager : MonoBehaviour
         timerSlider.maxValue = gameTime;
         timerSlider.value = gameTime;
         elapsedTime = 0f;
+    }
+
+    public void LoadNext() {
+        int index = Random.Range(1,16);
+        SceneManager.LoadScene(index);
+        Debug.Log("scene loaded");
     }
 }

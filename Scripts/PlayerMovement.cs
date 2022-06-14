@@ -9,12 +9,13 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D body;
     private bool movement;
     private bool efffected;
+    [SerializeField] private float curve;
     
     private void Start() 
     {
         body = GetComponent<Rigidbody2D>();
         movement = true;
-        FindObjectOfType<GameManager>().gameTime = 30;
+        FindObjectOfType<GameManager>().gameTime = 15;
     }
     
     public void move() 
@@ -69,8 +70,8 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("detected field");
             float velx = body.velocity.x;
             float vely = body.velocity.y;
-            body.AddForce(new Vector2(0f,velx * speed * 0.1135f), ForceMode2D.Impulse);
-            body.AddForce(new Vector2(vely * speed * -0.1135f,0f), ForceMode2D.Impulse);
+            body.AddForce(new Vector2(0f,velx * speed * 1 * curve), ForceMode2D.Impulse);
+            body.AddForce(new Vector2(vely * speed * -1 * curve,0f), ForceMode2D.Impulse);
             
         }
 
@@ -79,8 +80,8 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("detected field");
             float velx = body.velocity.x;
             float vely = body.velocity.y;
-            body.AddForce(new Vector2(0f,velx * speed * -0.1135f), ForceMode2D.Impulse);
-            body.AddForce(new Vector2(vely * speed * 0.1135f,0f), ForceMode2D.Impulse);
+            body.AddForce(new Vector2(0f,velx * speed * -1 * curve), ForceMode2D.Impulse);
+            body.AddForce(new Vector2(vely * speed * 1 * curve,0f), ForceMode2D.Impulse);
             
         }
 
@@ -93,14 +94,18 @@ public class PlayerMovement : MonoBehaviour
             body.velocity = new Vector2(0f, 0f);
             transform.position = new Vector3(0, 11, 0);
             movement = true;  
-            if (GameObject.Find("Score").GetComponent<ScoreScript>().score <= 1400) {
-                FindObjectOfType<GameManager>().gameTime = 15 - GameObject.Find("Score").GetComponent<ScoreScript>().score/100;
+            if (ScoreScript.score == 0) {
+                FindObjectOfType<GameManager>().gameTime = 15;
+            }
+            else if (ScoreScript.score <= 1400) {
+                FindObjectOfType<GameManager>().gameTime = 15 - ScoreScript.score/100;
             }
             else {
                 FindObjectOfType<GameManager>().gameTime = 1;
             }
             FindObjectOfType<GameManager>().SetGameTime();
             FindObjectOfType<GameManager>().timeStop = false;
+            FindObjectOfType<GameManager>().LoadNext();
         }
         
         if(collision.gameObject.tag == "wall") {
